@@ -7,11 +7,24 @@ namespace app\core;
  */
 class Router
 {
-    /**
-     * Router constructor
-     */
-    public function __construct()
+    public Request $request;
+    protected array $routes = [];
+
+    public function __construct(\app\core\Request $request)
     {
-        
+        $this->request = $request;
+    }
+    /**
+     * Get method
+     */
+    public function get($path, $callback)
+    {
+        $this->routes['get'][$path] = $callback;
+    }
+
+    public function resolve()
+    {
+        $this->request->getPath();
+        // $this->routes['get'][$path] = $callback;
     }
 }
