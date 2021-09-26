@@ -1,0 +1,15 @@
+{
+    "name": "root/cwiczenia",
+    "authors": [
+        {
+            "name": "Piotr Zamarlik",
+            "email": "piotr.zamarlik@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
