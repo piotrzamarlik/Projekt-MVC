@@ -24,6 +24,7 @@ class Application
      */
     public function run()
     {
-        $this->router->resolve();
+        // œświetlenie cokolwiek zostało zwrócone z routera
+        echo $this->router->resolve();
     }
 }

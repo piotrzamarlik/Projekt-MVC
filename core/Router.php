@@ -24,7 +24,27 @@ class Router
 
     public function resolve()
     {
-        $this->request->getPath();
+        $path = $this->request->getPath();
+        $method = $this->request->getMethod();
+        $callback = $this->routes[$method][$path] ?? false;
+        // jeśli nie istnieje routing dla url
+        if ($callback === false) {
+            return "Nie znaleziono";
+        }
+
+        if (is_string($callback)) {
+            return $this->renderView($callback);
+        }
+        return call_user_func($callback);
+        // echo '<pre>';
+        // var_dump($callback);
+        // echo '</pre>';
+        // exit;
+
         // $this->routes['get'][$path] = $callback;
+    }
+
+    public function renderView($view) {
+        include_once __DIR__ . "/../views/$view.php";
     }
 }
