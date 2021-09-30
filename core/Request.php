@@ -25,11 +25,11 @@ class Request
     }
 
     /**
-     * 
+     * Metoda do pobrania typu żądania - GET, POST, PUT, DELETE
      */
     public function getMethod()
     {
-        // zwrócenie metody, jaka zaostała użyta przy url - get, post, put, delete
+        // zwrócenie metody, jaka została użyta przy url - get, post, put, delete
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 }
