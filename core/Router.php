@@ -9,12 +9,20 @@ class Router
 {
 
     public Request $request;
+    public Response $response;
     // tablica z routingiem
     protected array $routes = [];
 
-    public function __construct(\app\core\Request $request)
+    /**
+     * Router konstruktor
+     * 
+     * @param app\core\Request $request
+     * @param app\core\Response $response
+     */
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
     /**
      * Get method - dodanie to routingu ścieżki i akcji zwrotnej
@@ -34,6 +42,7 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         // jeśli nie istnieje routing dla url
         if ($callback === false) {
+            $this->response->setStatusCode(404);
             return "Nie znaleziono";
         }
 

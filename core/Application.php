@@ -10,6 +10,8 @@ class Application
     public static string $ROOT_DIR;
     public Router $router;
     public Request $request;
+    public Response $response;
+    public static Application $APP;
 
     /**
      * Application constructor
@@ -17,12 +19,14 @@ class Application
     public function __construct($rootPath)
     {
         self::$ROOT_DIR = $rootPath;
+        self::$APP = $this; // przypisanie instacji obiektu Application do stałej
         $this->request = new Request();
-        $this->router = new Router($this->request);
+        $this->response = new Response();
+        $this->router = new Router($this->request, $this->response);
     }
 
     /**
-     * 
+     * Uruchomienie aplikacji
      */
     public function run()
     {
