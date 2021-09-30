@@ -7,15 +7,25 @@ namespace app\core;
  */
 class Router
 {
+
     public Request $request;
+    public Response $response;
+    // tablica z routingiem
     protected array $routes = [];
 
-    public function __construct(\app\core\Request $request)
+    /**
+     * Router konstruktor
+     * 
+     * @param app\core\Request $request
+     * @param app\core\Response $response
+     */
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
     /**
-     * Get method
+     * Get method - dodanie to routingu ścieżki i akcji zwrotnej
      */
     public function get($path, $callback)
     {
@@ -24,11 +34,15 @@ class Router
 
     public function resolve()
     {
+        // pobranie ścieżki z requesta
         $path = $this->request->getPath();
+        // pobranie metody z requesta - GET, POST, PUT, DELETE
         $method = $this->request->getMethod();
+        // pobranie akcji na dany routing
         $callback = $this->routes[$method][$path] ?? false;
         // jeśli nie istnieje routing dla url
         if ($callback === false) {
+            $this->response->setStatusCode(404);
             return "Nie znaleziono";
         }
 
@@ -42,7 +56,39 @@ class Router
         // exit;
     }
 
+    /**
+     * Render widoku z przekazanej zmiennej z $callback
+     */
     public function renderView($view) {
-        include_once __DIR__ . "/../views/$view.php";
+        // pobranie szablonu layout'u
+        $layoutContent = $this->layoutContent();
+        // pobranie treści layout'u
+        $viewContent = $this->viewContent($view);
+        // zastąpienie zmiennej {{content}} w szablonie treścią konkretnego widoku i zwrócenie do przeglądarki
+        return str_replace('{{content}}', $viewContent, $layoutContent);
+    }
+
+    /**
+     * Metoda pobierająca treść do wyświetlenia szablonu
+     */
+    protected function layoutContent() {
+        // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
+        ob_start();
+        // to jest aktualny stan do zwrócenia w przeglądarce (w metodzie renderView)
+        include_once Application::$ROOT_DIR . "/views/layouts/main.php";
+        // zwrócenie tego co zostało z cache'owane i czyści bufor
+        return ob_get_clean();
+    }
+
+    /**
+     * Metoda pobierająca treść do wyświetlenia szablonu
+     */
+    protected function viewContent($view) {
+        // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
+        ob_start();
+        // to jest aktualny stan do zwrócenia w przeglądarce (w metodzie renderView)
+        include_once Application::$ROOT_DIR . "/views/$view.php";
+        // zwrócenie tego co zostało z cache'owane i czyści bufor
+        return ob_get_clean();
     }
 }
