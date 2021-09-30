@@ -45,7 +45,7 @@ class Router
         // pobranie ścieżki z requesta
         $path = $this->request->getPath();
         // pobranie metody z requesta - GET, POST, PUT, DELETE
-        $method = $this->request->getMethod();
+        $method = $this->request->method();
         // pobranie akcji na dany routing
         $callback = $this->routes[$method][$path] ?? false;
         // jeśli nie istnieje routing dla url
@@ -64,7 +64,8 @@ class Router
             $callback[0]  = new $callback[0]();
         }
 
-        return call_user_func($callback);
+        // przesłanie callback i dodatkowego parametru $requesta, tak aby był dostępny w kontrolerze
+        return call_user_func($callback, $this->request);
         // echo '<pre>';
         // var_dump($callback);
         // echo '</pre>';

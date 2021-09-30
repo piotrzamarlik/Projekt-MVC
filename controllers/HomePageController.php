@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use app\core\Controller;
+use app\core\Request;
 
 /**
  * Class HomePageController
