@@ -11,11 +11,13 @@ use app\core\Request;
  */
 class AuthorizationController extends Controller
 {
-    public function login(Request $request) {        
+    public function login(Request $request) {    
+        $this->setLayout('auth');
         return $this->render('login');
     }
 
-    public function register(Request $request) {   
+    public function register(Request $request) {  
+        $this->setLayout('auth'); 
         if ($request->isPost()) {
             return 'Dane z requesta';
         }

@@ -13,5 +13,5 @@
         <label class="form-label">Email address</label>
         <input type="email" name="email" class="form-control">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary m-2">Submit</button>
 </form>

@@ -13,5 +13,5 @@
         <label class="form-label">Treść</label>
         <textarea name="description" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary m2">Submit</button>
 </form>
