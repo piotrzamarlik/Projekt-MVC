@@ -19,7 +19,7 @@ class Application
     public function __construct($rootPath)
     {
         self::$ROOT_DIR = $rootPath;
-        // self::$APP = $this; // przypisanie instacji obiektu Application do stałej
+        self::$APP = $this; // przypisanie instacji obiektu Application do stałej
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);
