@@ -51,7 +51,7 @@ class Router
         // jeśli nie istnieje routing dla url
         if ($callback === false) {
             $this->response->setStatusCode(404);
-            return "Nie znaleziono";
+            return $this->renderView("404");
         }
 
         if (is_string($callback)) {
@@ -67,11 +67,11 @@ class Router
     /**
      * Render widoku z przekazanej zmiennej z $callback
      */
-    public function renderView($view) {
+    public function renderView($view, $params = []) {
         // pobranie szablonu layout'u
         $layoutContent = $this->layoutContent();
         // pobranie treści layout'u
-        $viewContent = $this->viewContent($view);
+        $viewContent = $this->viewContent($view, $params);
         // zastąpienie zmiennej {{content}} w szablonie treścią konkretnego widoku i zwrócenie do przeglądarki
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
@@ -91,7 +91,12 @@ class Router
     /**
      * Metoda pobierająca treść do wyświetlenia szablonu
      */
-    protected function viewContent($view) {
+    protected function viewContent($view, $params) {
+        // Dzięki tej pętli załączanie pliku będzie miało dostępne wartości z tablicy
+        foreach ($params as $key => $value) {
+            // $key => 'name', $$key oznacza, żę $key jest jest zmienną o nazwie name, której wartość jest $value
+            $$key = $value;
+        }
         // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
         ob_start();
         // to jest aktualny stan do zwrócenia w przeglądarce (w metodzie renderView)
