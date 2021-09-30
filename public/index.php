@@ -12,4 +12,7 @@ $app = new Application(dirname(__DIR__));
 
 $app->router->get('/', 'home');
 $app->router->get('/contact', 'contact');
+$app->router->post('/contact', function() {
+    
+});
 $app->run();
