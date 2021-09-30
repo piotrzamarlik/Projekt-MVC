@@ -61,7 +61,8 @@ class Router
         if (is_array($callback)) {
             // wstawienie instacji  obiektu na indeks 0 w callback z np. ContactPageController::class
             // bez tego zwracany jest string i w metodzie render w kontorlerze $this jest stringiem a nie obiektem
-            $callback[0]  = new $callback[0]();
+            Application::$app->controller = new $callback[0]();
+            $callback[0] = Application::$app->controller;
         }
 
         // przesłanie callback i dodatkowego parametru $requesta, tak aby był dostępny w kontrolerze
@@ -88,10 +89,11 @@ class Router
      * Metoda pobierająca treść do wyświetlenia szablonu
      */
     protected function layoutContent() {
+        $layout = Application::$app->controller->layout;
         // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
         ob_start();
         // to jest aktualny stan do zwrócenia w przeglądarce (w metodzie renderView)
-        include_once Application::$ROOT_DIR . "/views/layouts/main.php";
+        include_once Application::$ROOT_DIR . "/views/layouts/$layout.php";
         // zwrócenie tego co zostało z cache'owane i czyści bufor
         return ob_get_clean();
     }

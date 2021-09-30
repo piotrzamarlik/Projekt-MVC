@@ -34,4 +34,20 @@ class Application
         // wyświetlenie cokolwiek zostało zwrócone z routera
         echo $this->router->resolve();
     }
+
+    /**
+     * @return \app\core\Controller
+     */
+    public function getController(): \app\core\Controller
+    {
+        return $this->controller;
+    }
+
+    /**
+     * @return \app\core\Controller
+     */
+    public function setController(\app\core\Controller $controller): void
+    {
+        $this->controller = $controller;
+    }
 }
