@@ -2,17 +2,19 @@
 
 namespace app\controllers;
 
-use app\core\Application;
+
+use app\core\Controller;
 
 /**
  * Class HomePageController
  */
-class HomePageController
+class HomePageController extends Controller
 {
-    public static function getHomePage() {
+    public function getHomePage() {
         $params = [
             'name' => 'Pioter'
         ];
-        return Application::$app->router->renderView('home', $params);
+        
+        return $this->render('home', $params);
     }
 }

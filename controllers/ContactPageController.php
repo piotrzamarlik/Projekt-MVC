@@ -2,18 +2,18 @@
 
 namespace app\controllers;
 
-use app\core\Application;
+use app\core\Controller;
 
 /**
  * Class ContactPageController
  */
-class ContactPageController
+class ContactPageController extends Controller
 {
-    public static function getViewForm() {
-        return Application::$app->router->renderView('contact');
+    public function getViewForm() {
+        return $this->render('contact');
     }
 
-    public static function saveContactData() {
+    public function saveContactData() {
         return 'dsafsdfsdf';
     }
 }
