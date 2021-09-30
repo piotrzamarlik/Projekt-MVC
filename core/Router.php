@@ -32,6 +32,14 @@ class Router
         $this->routes['get'][$path] = $callback;
     }
 
+    /**
+     * Post method - dodanie to routingu ścieżki i akcji zwrotnej
+     */
+    public function post($path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
+    }
+
     public function resolve()
     {
         // pobranie ścieżki z requesta
