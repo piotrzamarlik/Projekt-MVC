@@ -104,7 +104,7 @@ class Router
     protected function viewContent($view, $params) {
         // Dzięki tej pętli załączanie pliku będzie miało dostępne wartości z tablicy
         foreach ($params as $key => $value) {
-            // $key => 'name', $$key oznacza, żę $key jest jest zmienną o nazwie name, której wartość jest $value
+            // $key => 'name', $$key oznacza, że $key jest zmienną o nazwie name, której wartość jest $value
             $$key = $value;
         }
         // rozpczęcie output caching, nic nie wyświetli się w przeglądarce

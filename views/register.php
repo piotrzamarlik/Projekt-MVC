@@ -5,7 +5,7 @@
         <div class="col">
             <div class="form-group">
                 <label class="form-label">Imię</label>
-                <input type="text" name="fristname" class="form-control">
+                <input type="text" name="firstname" class="form-control">
             </div>
         </div>
         <div class="col">

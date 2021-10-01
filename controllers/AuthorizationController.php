@@ -17,16 +17,29 @@ class AuthorizationController extends Controller
         return $this->render('login');
     }
 
+    /**
+     * Rejestracja użytkownika
+     */
     public function register(Request $request) {  
         $this->setLayout('auth'); 
+        $register = new RegisterModel();
         if ($request->isPost()) {
-            $register = new RegisterModel();
-            // $register->loadData($request->getBody());
-            // if ($register->validate() && $register->register()) {
-            //     return 'Succes';
-            // }
-            return $this->render('register');
+            $register->loadData($request->getBody());
+            // echo '<pre>';
+            // var_dump($register);
+            // echo '</pre>';
+            // exit;
+
+            if ($register->validate() && $register->register()) {
+                return 'Succes';
+            }
+
+            return $this->render('register', [
+                'model' => $register
+            ]);
         }
-        return $this->render('register');
+        return $this->render('register', [
+            'model' => $register
+        ]);
     }
 }
