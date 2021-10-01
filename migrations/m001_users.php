@@ -1,7 +1,7 @@
 <?php
 
-class m001_users {
-
+class m001_users
+{
     public function up()
     {
         echo "Dodanie migracji";
