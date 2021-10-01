@@ -21,7 +21,5 @@ $config = [
     ],
 ];
 
-// dirname(__DIR__) - pobranie nazwy katalogu głównego systemu
 $app = new Application(__DIR__, $config);
-
 $app->db->applyMigrations();
