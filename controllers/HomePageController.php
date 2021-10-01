@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-
 use app\core\Controller;
 
 /**
@@ -10,11 +9,12 @@ use app\core\Controller;
  */
 class HomePageController extends Controller
 {
-    public function getHomePage() {
+    public function getHomePage()
+    {
         $params = [
-            'name' => 'Pioter'
+            'name' => 'Pioter',
         ];
-        
+
         return $this->render('home', $params);
     }
 }

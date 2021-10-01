@@ -11,26 +11,6 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Strona główna</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/contact">Kontakt</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="/register">Rejestracja</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
     <div class="container">
         {{content}}
     </div>

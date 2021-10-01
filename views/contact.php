@@ -3,7 +3,7 @@
 <form action="" method="post">
     <div class="form-group">
         <label class="form-label">Temat</label>
-        <input type="text" name="temat" class="form-control">
+        <input type="text" name="title" class="form-control">
     </div>
     <div class="form-group">
         <label class="form-label">Email address</label>
@@ -11,7 +11,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Treść</label>
-        <textarea name="tresc" class="form-control"></textarea>
+        <textarea name="description" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary m2">Submit</button>
 </form>
