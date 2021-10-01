@@ -31,7 +31,7 @@ class AuthorizationController extends Controller
             // exit;
 
             if ($register->validate() && $register->register()) {
-                return 'Succes';
+                echo 'Succes';
             }
 
             return $this->render('register', [
