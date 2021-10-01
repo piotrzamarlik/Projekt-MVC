@@ -22,8 +22,11 @@ class Database
     {
         $this->createMigrationsTable();
         $migrated = $this->getMigrations();
-
+        // tablica do przechowania dodanych nowych migracji
+        $addedMigrations = [];
+        // pliki z migracjami
         $migrations = scandir(Application::$ROOT_DIR . '/migrations');
+        // migracje, które musza zostać wykonane
         $newMigrations = array_diff($migrations, $migrated);
 
         foreach ($newMigrations as $migration) {
@@ -31,8 +34,20 @@ class Database
                 continue;
             }
 
-            require_once Application::$ROOT_DIR . '/migraitons/' . $migration;
+            require_once Application::$ROOT_DIR . '/migrations/' . $migration;
             $calssName = pathinfo($migration, PATHINFO_FILENAME);
+            $instanceClass = new $calssName();
+            $this->log("Migracja, która jest dodawana $migration");
+            $instanceClass->up();
+            $this->log("Migracja, która została dodana $migration");
+            // dodanie migracji do tablicy pomocniczej, która zawiera wykonane nowe migracje
+            $addedMigrations[] = $migration;
+        }
+
+        if (!empty($addedMigrations)) {
+            $this->saveMigrations($addedMigrations);
+        } else {
+            $this->log("Wszystkie migracje są aktualne");
         }
     }
 
@@ -52,5 +67,17 @@ class Database
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    public function saveMigrations(array $migrations)
+    {
+        $strMigrations = implode(",", array_map(fn($m) => "('$m')", $migrations));
+        $stmt = $this->pdo->prepare("INSERT INTO migrations (migration) VALUES $strMigrations");
+        $stmt->execute();
+    }
+
+    protected function log($message)
+    {
+        echo '[' . date('Y-m-d H:i:s') . '] - ' .$message . PHP_EOL;
     }
 }
