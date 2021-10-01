@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-
 use app\core\Controller;
 use app\core\Request;
 use app\models\Register as RegisterModel;
@@ -12,7 +11,8 @@ use app\models\Register as RegisterModel;
  */
 class AuthorizationController extends Controller
 {
-    public function login(Request $request) {    
+    public function login(Request $request)
+    {
         $this->setLayout('auth');
         return $this->render('login');
     }
@@ -20,8 +20,9 @@ class AuthorizationController extends Controller
     /**
      * Rejestracja użytkownika
      */
-    public function register(Request $request) {  
-        $this->setLayout('auth'); 
+    public function register(Request $request)
+    {
+        $this->setLayout('auth');
         $register = new RegisterModel();
         if ($request->isPost()) {
             $register->loadData($request->getBody());
@@ -35,11 +36,11 @@ class AuthorizationController extends Controller
             }
 
             return $this->render('register', [
-                'model' => $register
+                'model' => $register,
             ]);
         }
         return $this->render('register', [
-            'model' => $register
+            'model' => $register,
         ]);
     }
 }

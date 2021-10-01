@@ -11,11 +11,11 @@ class Router
     public Request $request;
     public Response $response;
     // tablica z routingiem
-    protected array $routes = [];
+    protected $routes = [];
 
     /**
      * Router konstruktor
-     * 
+     *
      * @param app\core\Request $request
      * @param app\core\Response $response
      */
@@ -76,7 +76,8 @@ class Router
     /**
      * Render widoku z przekazanej zmiennej z $callback
      */
-    public function renderView($view, $params = []) {
+    public function renderView($view, $params = [])
+    {
         // pobranie szablonu layout'u
         $layoutContent = $this->layoutContent();
         // pobranie treści layout'u
@@ -88,7 +89,8 @@ class Router
     /**
      * Metoda pobierająca treść do wyświetlenia szablonu
      */
-    protected function layoutContent() {
+    protected function layoutContent()
+    {
         $layout = Application::$app->controller->layout;
         // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
         ob_start();
@@ -101,7 +103,8 @@ class Router
     /**
      * Metoda pobierająca treść do wyświetlenia szablonu
      */
-    protected function viewContent($view, $params) {
+    protected function viewContent($view, $params)
+    {
         // Dzięki tej pętli załączanie pliku będzie miało dostępne wartości z tablicy
         foreach ($params as $key => $value) {
             // $key => 'name', $$key oznacza, że $key jest zmienną o nazwie name, której wartość jest $value
