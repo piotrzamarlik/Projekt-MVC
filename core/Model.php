@@ -59,24 +59,24 @@ abstract class Model
                 }
                 // jeśli rule jest równy required i wartość nie istnieje
                 if ($ruleName === self::RULE_REQUIRED && !$value) {
-                    $this->addError($attribute, self::RULE_REQUIRED);
+                    $this->addErrorForRule($attribute, self::RULE_REQUIRED);
                 }
                 // walidacja email
                 if ($ruleName === self::RULE_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->addError($attribute, self::RULE_EMAIL);
+                    $this->addErrorForRule($attribute, self::RULE_EMAIL);
                 }
                 // walidacja min
                 if ($ruleName === self::RULE_MIN && strlen($value) < $rule['min']) {
-                    $this->addError($attribute, self::RULE_MIN, $rule);
+                    $this->addErrorForRule($attribute, self::RULE_MIN, $rule);
                 }
                 // walidacja max
                 if ($ruleName === self::RULE_MAX && strlen($value) > $rule['max']) {
-                    $this->addError($attribute, self::RULE_MAX, $rule);
+                    $this->addErrorForRule($attribute, self::RULE_MAX, $rule);
                 }
                 // walidacja zgodności haseł
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
                     $rule['match'] = $this->getLabel($rule['match']);
-                    $this->addError($attribute, self::RULE_MATCH, $rule);
+                    $this->addErrorForRule($attribute, self::RULE_MATCH, $rule);
                 }
                  // walidacja unikalności maila
                  if ($ruleName === self::RULE_UNIQUE) {
@@ -93,7 +93,7 @@ abstract class Model
                     $stmt->execute();
                     $exists = $stmt->fetchObject();
                     if ($exists) {
-                        $this->addError($attribute, self::RULE_UNIQUE, ['email' => $this->getLabel($attribute)]);
+                        $this->addErrorForRule($attribute, self::RULE_UNIQUE, ['email' => $this->getLabel($attribute)]);
                     }
                 }
             }
@@ -102,14 +102,26 @@ abstract class Model
     }
 
     /**
-     * Dodanie błędów do tablicy
+     * Dodanie błędów walidacji do tablicy
      */
-    public function addError(string $attribute, string $rule, $params = [])
+    private function addErrorForRule(string $attribute, string $rule, $params = [])
     {
         $message = $this->errorMessages()[$rule] ?? '';
         foreach ($params as $key => $value) {
             $message = str_replace("{{$key}}", $value, $message);
         }
+        $this->errors[$attribute][] = $message;
+    }
+
+    /**
+     * Dodanie błędów z formularzy
+     */
+    private function addError(string $attribute, string $message)
+    {
+        // $message = $this->errorMessages() ?? '';
+        // foreach ($params as $key => $value) {
+        //     $message = str_replace("{{$key}}", $value, $message);
+        // }
         $this->errors[$attribute][] = $message;
     }
 

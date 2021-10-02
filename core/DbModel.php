@@ -26,6 +26,25 @@ abstract class DbModel extends Model
         return true;
     }
 
+    public static function findOne($where)
+    {
+        // przez to żę moetoda jet abstrakcyjna wywołanie static powoduje odwołanie do metody z aktualnej klasy
+        $tableName = static::getTableName();
+        $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn($p) => "$p = :$p", $attributes));
+        $stmt = self::prepare("
+            SELECT * FROM $tableName
+            WHERE $sql
+        ");
+
+        foreach ($where as $key => $item) {
+            $stmt->bindValue(":$key", $item);
+        }
+        $stmt->execute();
+        // zwrócenie instacji obiektu klasy user
+        return $stmt->fetchObject(static::class);
+    }
+
     public static function prepare($sql)
     {
        return Application::$app->db->pdo->prepare($sql);
