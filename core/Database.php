@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\Application;
+
 /**
  * Class Database
  */
@@ -74,6 +76,11 @@ class Database
         $strMigrations = implode(",", array_map(fn($m) => "('$m')", $migrations));
         $stmt = $this->pdo->prepare("INSERT INTO migrations (migration) VALUES $strMigrations");
         $stmt->execute();
+    }
+
+    public function prepare($sql)
+    {
+       return $this->pdo->prepare($sql);
     }
 
     protected function log($message)

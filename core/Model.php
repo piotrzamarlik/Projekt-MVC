@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\core\Application;
+
 /**
  * Class Model
  */
@@ -12,6 +14,7 @@ abstract class Model
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
     public const RULE_MATCH = 'match';
+    public const RULE_UNIQUE = 'unique';
     public $errors = [];
 
     /**
@@ -64,6 +67,24 @@ abstract class Model
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
                     $this->addError($attribute, self::RULE_MATCH, $rule);
                 }
+                 // walidacja unikalności maila
+                 if ($ruleName === self::RULE_UNIQUE) {
+                    // && $value !== $this->{$rule['unique']}
+                    // pobranie nazwy klasy z modelu, który definiuje rules()
+                    $className = $rule['class'];
+                    $uniqueAttribute = $rule['attribute'] ?? $attribute;
+                    $tableName = $className::getTableName();
+                    $stmt = Application::$app->db->prepare("
+                        SELECT * FROM $tableName
+                        WHERE $uniqueAttribute = :$uniqueAttribute
+                    ");
+                    $stmt->bindValue(":$uniqueAttribute", $value);
+                    $stmt->execute();
+                    $exists = $stmt->fetchObject();
+                    if ($exists) {
+                        $this->addError($attribute, self::RULE_UNIQUE, ['email' => $attribute]);
+                    }
+                }
             }
         }
         return empty($this->errors);
@@ -92,6 +113,7 @@ abstract class Model
             self::RULE_MIN => 'Minimalna liczba znaków to {min}',
             self::RULE_MAX => 'Maksymalna liczba znaków to {max}',
             self::RULE_MATCH => 'Pole musi się zgadzać z polem {match}',
+            self::RULE_UNIQUE => 'Adres {email} istnieje już w systemie',
         ];
     }
 }
