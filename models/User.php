@@ -26,8 +26,19 @@ class User extends DbModel
     {
         return ['firstname', 'lastname', 'email', 'password', 'status'];
     }
+    // metoda przeciążająca metodę rodzica dotyczącą nazw pól label
+    public function labels(): array
+    {
+        return [
+            'firstname' => 'Imię', 
+            'lastname' => 'Nazwisko', 
+            'email' => 'Adres emial', 
+            'password' => 'Hasło',
+            'confirmPassword' => 'Powtórz hasło',
+        ];
+    }
 
-    // metoda nadpisująca metdę rodzica
+    // metoda przeciążająca metodę rodzica
     public function save()
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);

@@ -34,6 +34,16 @@ abstract class Model
      */
     abstract public function rules(): array;
 
+    // meetoda zwracająca pusta tablicę. Metode można nadpisać w klasie dziedziczącej
+    public function labels(): array
+    {
+        return [];
+    }
+
+    public function getLabel($attribute)
+    {
+        return $this->labels()[$attribute] ?? $attribute;
+    }
     /**
      * Walidacja danych z requesta
      */
@@ -65,6 +75,7 @@ abstract class Model
                 }
                 // walidacja zgodności haseł
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
+                    $rule['match'] = $this->getLabel($rule['match']);
                     $this->addError($attribute, self::RULE_MATCH, $rule);
                 }
                  // walidacja unikalności maila
@@ -82,7 +93,7 @@ abstract class Model
                     $stmt->execute();
                     $exists = $stmt->fetchObject();
                     if ($exists) {
-                        $this->addError($attribute, self::RULE_UNIQUE, ['email' => $attribute]);
+                        $this->addError($attribute, self::RULE_UNIQUE, ['email' => $this->getLabel($attribute)]);
                     }
                 }
             }
@@ -113,7 +124,7 @@ abstract class Model
             self::RULE_MIN => 'Minimalna liczba znaków to {min}',
             self::RULE_MAX => 'Maksymalna liczba znaków to {max}',
             self::RULE_MATCH => 'Pole musi się zgadzać z polem {match}',
-            self::RULE_UNIQUE => 'Adres {email} istnieje już w systemie',
+            self::RULE_UNIQUE => '{email} istnieje już w systemie',
         ];
     }
 }
