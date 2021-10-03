@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Controller;
 use app\core\Request;
+use app\core\Response;
 use app\core\Application;
 use app\models\User;
 use app\models\LoginForm;
@@ -19,24 +20,21 @@ class AuthorizationController extends Controller
         $login = new LoginForm();
         if ($request->isPost()) {
             $login->loadData($request->getBody());
-            // echo '<pre>';
-            // var_dump($user);
-            // echo '</pre>';
-            // exit;
-
             if ($login->validate() && $login->login()) {
-                // Application::$app->session->setFlash('success', 'Poprawnie zalogowano');
-                // Application::$app->response->redirect('/');
+                echo '<pre>';
+                var_dump('dupa logowanie');
+                echo '</pre>';
+
                 $response->redirect('/');
                 return;
             }
 
-            // return $this->render('register', [
-            //     'model' => $user,
+            // return $this->render('login', [
+            //     'model' => $login,
             // ]);
         }
         return $this->render('login', [
-            'model' => $user,
+            'model' => $login,
         ]);
 
     }
@@ -67,5 +65,11 @@ class AuthorizationController extends Controller
         return $this->render('register', [
             'model' => $user,
         ]);
+    }
+
+    public function logout(Request $request, Response $response)
+    {
+        Application::$app->logout();
+        $response->redirect('/');
     }
 }

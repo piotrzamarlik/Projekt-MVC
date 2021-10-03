@@ -9,6 +9,7 @@ abstract class DbModel extends Model
 {
     abstract public function getTableName(): string;
     abstract public function getAttributes(): array;
+    abstract public function primaryKey(): string;
 
     public function save()
     {
@@ -28,8 +29,11 @@ abstract class DbModel extends Model
 
     public static function findOne($where)
     {
-        // przez to żę moetoda jet abstrakcyjna wywołanie static powoduje odwołanie do metody z aktualnej klasy
-        $tableName = static::getTableName();
+        // przez to, że metoda jet abstrakcyjna trzeba pobrać instację klasy obecnie obowiązującej
+        $className = static::class;
+        // wywolanie nowego obiektu klasy
+        $context = new $className();
+        $tableName = $context->getTableName();
         $attributes = array_keys($where);
         $sql = implode("AND ", array_map(fn($p) => "$p = :$p", $attributes));
         $stmt = self::prepare("

@@ -116,12 +116,8 @@ abstract class Model
     /**
      * Dodanie błędów z formularzy
      */
-    private function addError(string $attribute, string $message)
+    public function addError(string $attribute, string $message)
     {
-        // $message = $this->errorMessages() ?? '';
-        // foreach ($params as $key => $value) {
-        //     $message = str_replace("{{$key}}", $value, $message);
-        // }
         $this->errors[$attribute][] = $message;
     }
 

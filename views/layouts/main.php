@@ -1,5 +1,5 @@
 <?php
-use \app\core\Application;
+  use \app\core\Application;
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,20 +18,30 @@ use \app\core\Application;
         <div class="container-fluid">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Strona główna</a>
+                <a class="nav-link" aria-current="page" href="/">Strona główna</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="/contact">Kontakt</a>
                 </li>
             </ul>
+            <?php if (Application::isGuest()): ?>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Login</a>
+                  <a class="nav-link" aria-current="page" href="/login">Logowanie</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/register">Rejestracja</a>
+                  <a class="nav-link" href="/register">Rejestracja</a>
                 </li>
             </ul>
+            <?php else:  ?>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout">Witaj <?php echo Application::$app->user->getDisplayName() ?>
+                    (Wyloguj)
+                  </a>
+                </li>
+              </ul>
+            <?php endif; ?>
         </div>
     </nav>
     <div class="container">

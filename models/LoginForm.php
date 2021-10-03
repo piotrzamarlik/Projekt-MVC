@@ -7,8 +7,8 @@ use app\core\Application;
 
 class LoginForm extends Model
 {
-    public string $email;
-    public string $password;
+    public string $email = '';
+    public string $password = '';
 
     /**
      * Implementacja metody rules()
@@ -29,20 +29,20 @@ class LoginForm extends Model
             return false;
         }
 
-        if (password_verify($this->password, $user->password)) {
+        if (!password_verify($this->password, $user->password)) {
             $this->addError('password', 'Nieprawidłowe hasło');
             return false;
         }
-        Application::$app->login();
+        return Application::$app->login($user);
     }
 
-    // public function hasError($attribute)
-    // {
-    //     return $this->errors[$attribute] ?? false;
-    // }
+    public function hasError($attribute)
+    {
+        return $this->errors[$attribute] ?? false;
+    }
 
-    // public function getFirstError($attribute)
-    // {
-    //     return $this->errors[$attribute][0] ?? false;
-    // }
+    public function getFirstError($attribute)
+    {
+        return $this->errors[$attribute][0] ?? false;
+    }
 }

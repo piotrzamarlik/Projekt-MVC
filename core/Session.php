@@ -33,6 +33,30 @@ class Session
     }
 
     /**
+     * Ustawienie danych sesji
+     */
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * Pbranie danych sesji
+     */
+    public function get($key)
+    {
+        return $_SESSION[$key] ?? false;
+    }
+
+    /**
+     * Usunięcie danych z sesji
+     */
+    public function remove($key)
+    {
+        unset($_SESSION[$key]);
+    }
+
+    /**
      * Pobranie komunikatu, który obowiązuje tylko dla jednego requesta np. po poprawnym dodaniu usera
      */
     public function getFlash($key)

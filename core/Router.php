@@ -66,7 +66,7 @@ class Router
         }
 
         // przesłanie callback i dodatkowego parametru $requesta, tak aby był dostępny w kontrolerze
-        return call_user_func($callback, $this->request);
+        return call_user_func($callback, $this->request, $this->response);
         // echo '<pre>';
         // var_dump($callback);
         // echo '</pre>';
