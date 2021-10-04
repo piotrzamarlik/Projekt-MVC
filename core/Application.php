@@ -7,6 +7,7 @@ namespace app\core;
  */
 class Application
 {
+    public string $layout = 'main';
     public static string $ROOT_DIR;
     public string $userClass;
     public Router $router;
@@ -15,8 +16,8 @@ class Application
     public Database $db;
     public Session $session;
     public static Application $app;
-    public Controller $controller;
-    public ?DbModel $user;
+    public ?Controller $controller = null;
+    public ?UserModel $user;
 
     /**
      * Application constructor
@@ -46,8 +47,15 @@ class Application
      */
     public function run()
     {
+        try {
         // wyświetlenie cokolwiek zostało zwrócone z routera
-        echo $this->router->resolve();
+            echo $this->router->resolve();
+        } catch (\Exception $e) {
+            $this->response->setStatusCode($e->getCode());
+            echo $this->router->renderView('error', [
+                "exception" => $e
+            ]);
+        }
     }
 
     /**
@@ -84,7 +92,7 @@ class Application
     public function logout()
     {
         $this->user = null;
-        $this->session->remove('user');
+        self::$app->session->remove('user');
     }
 
     public static function isGuest()

@@ -2,12 +2,13 @@
 
 namespace app\core;
 
+use app\core\exception\NotFoundException;
+
 /**
  * Class Router
  */
 class Router
 {
-
     public Request $request;
     public Response $response;
     // tablica z routingiem
@@ -50,8 +51,7 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         // jeśli nie istnieje routing dla url
         if ($callback === false) {
-            $this->response->setStatusCode(404);
-            return $this->renderView("404");
+            throw new NotFoundException();
         }
 
         if (is_string($callback)) {
@@ -59,18 +59,28 @@ class Router
         }
 
         if (is_array($callback)) {
+            // $controler jest instancją app\controller\Controller
             // wstawienie instacji  obiektu na indeks 0 w callback z np. ContactPageController::class
             // bez tego zwracany jest string i w metodzie render w kontorlerze $this jest stringiem a nie obiektem
-            Application::$app->controller = new $callback[0]();
-            $callback[0] = Application::$app->controller;
+            $controller = new $callback[0]();
+            $controller->action = $callback[1];
+            Application::$app->controller = $controller;
+            // ustawienie akcji dla middleware'a
+        // echo '<pre>';
+        // var_dump($controller);
+        // echo '</pre>';
+
+            foreach ($controller->getMiddlewares() as $middleware) {
+        //         echo '<pre>';
+        // var_dump($middleware);
+        // echo '</pre>';
+                $middleware->execute();
+            }
+            $callback[0] = $controller;
         }
 
         // przesłanie callback i dodatkowego parametru $requesta, tak aby był dostępny w kontrolerze
         return call_user_func($callback, $this->request, $this->response);
-        // echo '<pre>';
-        // var_dump($callback);
-        // echo '</pre>';
-        // exit;
     }
 
     /**
@@ -91,7 +101,10 @@ class Router
      */
     protected function layoutContent()
     {
-        $layout = Application::$app->controller->layout;
+        $layout = Application::$app->layout;
+        if (Application::$app->controller) {
+            $layout = Application::$app->controller->layout;
+        }
         // rozpczęcie output caching, nic nie wyświetli się w przeglądarce
         ob_start();
         // to jest aktualny stan do zwrócenia w przeglądarce (w metodzie renderView)

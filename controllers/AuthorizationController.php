@@ -6,6 +6,7 @@ use app\core\Controller;
 use app\core\Request;
 use app\core\Response;
 use app\core\Application;
+use app\core\middlewares\AuthMiddleware;
 use app\models\User;
 use app\models\LoginForm;
 
@@ -14,6 +15,11 @@ use app\models\LoginForm;
  */
 class AuthorizationController extends Controller
 {
+    public function __construct()
+    {
+        // $this->registerMiddleware(new AuthMiddleware(['profile']));
+    }
+
     public function login(Request $request, Response $response)
     {
         $this->setLayout('auth');
@@ -21,10 +27,6 @@ class AuthorizationController extends Controller
         if ($request->isPost()) {
             $login->loadData($request->getBody());
             if ($login->validate() && $login->login()) {
-                echo '<pre>';
-                var_dump('dupa logowanie');
-                echo '</pre>';
-
                 $response->redirect('/');
                 return;
             }
@@ -33,6 +35,7 @@ class AuthorizationController extends Controller
             //     'model' => $login,
             // ]);
         }
+        
         return $this->render('login', [
             'model' => $login,
         ]);
@@ -71,5 +74,10 @@ class AuthorizationController extends Controller
     {
         Application::$app->logout();
         $response->redirect('/');
+    }
+
+    public function profile()
+    {
+        return $this->render('profile');
     }
 }

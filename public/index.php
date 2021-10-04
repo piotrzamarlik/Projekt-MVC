@@ -34,4 +34,5 @@ $app->router->post('/login', [AuthorizationController::class, 'login']);
 $app->router->get('/register', [AuthorizationController::class, 'register']);
 $app->router->post('/register', [AuthorizationController::class, 'register']);
 $app->router->get('/logout', [AuthorizationController::class, 'logout']);
+$app->router->get('/profile', [AuthorizationController::class, 'profile']);
 $app->run();

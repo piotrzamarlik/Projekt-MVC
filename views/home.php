@@ -1,3 +1,9 @@
 <h1>Strona główna</h1>
 
-<h3> Witaj <?php echo $name; ?> </h3>
+<h3> 
+    <?php 
+        if ($name) {
+            echo 'Witaj ' . $name;
+        }
+    ?>
+</h3>
