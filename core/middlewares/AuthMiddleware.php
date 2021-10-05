@@ -7,17 +7,14 @@ use app\core\middlewares\BaseMiddleware;
 use app\core\exception\ForbiddenException;
 
 /**
- * Class BaseMiddleware
+ * Class AuthMiddleware
  */
 class AuthMiddleware extends BaseMiddleware
 {
     public $actions;
 
-    public function __constructor(array $actions = [])
+    public function __construct(array $actions = [])
     {
-        echo '<pre>';
-        var_dump('AuthMiddleware');
-        echo '</pre>';
         $this->actions = $actions;
     }
 

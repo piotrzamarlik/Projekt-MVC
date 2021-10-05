@@ -20,9 +20,6 @@ class Response
      */
     public function redirect(string $url)
     {
-        echo '<pre>';
-                var_dump('dupa response');
-                echo '</pre>';
         header('Location: ' . $url);
     }
 }
