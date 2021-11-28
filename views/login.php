@@ -1,17 +1,19 @@
+<?php
+    /**
+     * @var $model app\models\User
+     */
+?>
 <h1>Logowanie</h1>
-
-<form action="" method="post">
-    <div class="form-group">
-        <label class="form-label">Imię</label>
-        <input type="text" name="name" class="form-control">
+<?php $form = \app\core\form\Form::begin('', "post")?>
+    <div class="row">
+        <div class="col-4">
+            <?php echo $form->field($model, 'email') ?>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="form-label">Nazwisko</label>
-        <input type="text" name="surname" class="form-control">
+    <div class="row">
+        <div class="col-4">
+            <?php echo $form->field($model, 'password')->passwordField() ?>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="form-label">Email address</label>
-        <input type="email" name="email" class="form-control">
-    </div>
-    <button type="submit" class="btn btn-primary m-2">Submit</button>
-</form>
+    <button type="submit" class="btn btn-primary m-2">Zaloguj</button>
+<?php echo \app\core\form\Form::end() ?>

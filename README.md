@@ -4,7 +4,7 @@
 composer update
 ```
 
-2. W lini komend w katalogu głównym projektu wywołać migracje
+2. W linii komend w katalogu głównym projektu wywołać migracje
 ```bash
 php migrations.php
 ```

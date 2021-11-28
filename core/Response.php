@@ -14,4 +14,12 @@ class Response
     {
         http_response_code($code);
     }
+
+    /**
+     * PRzekierowanie
+     */
+    public function redirect(string $url)
+    {
+        header('Location: ' . $url);
+    }
 }

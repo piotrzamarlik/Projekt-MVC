@@ -14,6 +14,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 $config = [
+    'userClass' => app\models\User::class,
     'db' => [
         'dsn' => $_ENV['DB_DSN'],
         'user' => $_ENV['DB_USER'],
@@ -26,10 +27,12 @@ $app = new Application(dirname(__DIR__), $config);
 
 $app->router->get('/', [HomePageController::class, 'getHomePage']);
 $app->router->get('/contact', [ContactPageController::class, 'getViewForm']);
-$app->router->post('/contact', [ContactPageController::class, 'saveContactData']);
+$app->router->post('/contact', [ContactPageController::class, 'getViewForm']);
 
 $app->router->get('/login', [AuthorizationController::class, 'login']);
 $app->router->post('/login', [AuthorizationController::class, 'login']);
 $app->router->get('/register', [AuthorizationController::class, 'register']);
 $app->router->post('/register', [AuthorizationController::class, 'register']);
+$app->router->get('/logout', [AuthorizationController::class, 'logout']);
+$app->router->get('/profile', [AuthorizationController::class, 'profile']);
 $app->run();

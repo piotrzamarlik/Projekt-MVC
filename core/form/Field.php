@@ -35,10 +35,10 @@ class Field
                 </div>
             </div>
         ',
-                $this->attribute,
+                $this->model->getLabel($this->attribute),
                 $this->type,
                 $this->attribute,
-                $this->model->{$this->attribute}, // model Register
+                $this->model->{$this->attribute}, // model User
                 $this->model->hasError($this->attribute) ? ' is-invalid' : '',
                 $this->model->getFirstError($this->attribute),
             );
