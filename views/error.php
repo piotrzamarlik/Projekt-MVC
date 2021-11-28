@@ -1,8 +1,8 @@
 <?php
-    /**
-     * @var $exception \Exception
-     */
+/**
+ * @var $exception \Exception
+ */
 
 ?>
 
-<h3><?php echo $exception->getCode() ?> - <?php echo $exception->getMessage() ?> </h3>
+<h3><?=$exception->getCode() ?> - <?=$exception->getMessage() ?> </h3>
