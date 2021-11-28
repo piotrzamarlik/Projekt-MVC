@@ -18,6 +18,7 @@ class Application
     public static Application $app;
     public ?Controller $controller = null;
     public ?UserModel $user;
+    public View $view;
 
     /**
      * Application constructor
@@ -30,6 +31,7 @@ class Application
         $this->response = new Response();
         $this->session = new Session();
         $this->router = new Router($this->request, $this->response);
+        $this->view = new View();
         $this->db = new Database($config['db']);
         $this->userClass = $config['userClass'];
         $user = new $this->userClass();
@@ -52,7 +54,7 @@ class Application
             echo $this->router->resolve();
         } catch (\Exception $e) {
             $this->response->setStatusCode($e->getCode());
-            echo $this->router->renderView('error', [
+            echo $this->view->renderView('error', [
                 "exception" => $e
             ]);
         }

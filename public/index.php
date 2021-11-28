@@ -27,7 +27,7 @@ $app = new Application(dirname(__DIR__), $config);
 
 $app->router->get('/', [HomePageController::class, 'getHomePage']);
 $app->router->get('/contact', [ContactPageController::class, 'getViewForm']);
-$app->router->post('/contact', [ContactPageController::class, 'saveContactData']);
+$app->router->post('/contact', [ContactPageController::class, 'getViewForm']);
 
 $app->router->get('/login', [AuthorizationController::class, 'login']);
 $app->router->post('/login', [AuthorizationController::class, 'login']);
